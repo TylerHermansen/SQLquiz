@@ -1,0 +1,196 @@
+2022-06-13 17:11:22.381 MDT [37736] LOG:  starting PostgreSQL 12.9, compiled by Visual C++ build 1916, 64-bit
+2022-06-13 17:11:22.390 MDT [37736] LOG:  listening on IPv6 address "::1", port 5432
+2022-06-13 17:11:22.392 MDT [37736] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2022-06-13 17:11:22.475 MDT [31888] LOG:  database system was shut down at 2022-06-13 17:10:40 MDT
+2022-06-13 17:11:22.563 MDT [37736] LOG:  database system is ready to accept connections
+2022-06-13 17:14:29.012 MDT [43992] ERROR:  role "postgres" does not exist
+2022-06-13 17:14:29.012 MDT [43992] STATEMENT:  REVOKE ALL ON SCHEMA public FROM postgres;
+2022-06-13 17:14:29.013 MDT [43992] ERROR:  role "postgres" does not exist
+2022-06-13 17:14:29.013 MDT [43992] STATEMENT:  GRANT ALL ON SCHEMA public TO postgres;
+2022-06-13 17:19:46.681 MDT [44112] FATAL:  role "postgres" does not exist
+2022-06-13 17:22:35.809 MDT [29992] ERROR:  relation "customers" already exists
+2022-06-13 17:22:35.809 MDT [29992] STATEMENT:  CREATE TABLE customers (
+	    id integer NOT NULL,
+	    email character varying(120) NOT NULL,
+	    first_name character varying(30) NOT NULL,
+	    last_name character varying(30) NOT NULL,
+	    dob date NOT NULL
+	);
+2022-06-13 17:22:35.812 MDT [29992] ERROR:  relation "melons" already exists
+2022-06-13 17:22:35.812 MDT [29992] STATEMENT:  CREATE TABLE melons (
+	    id integer NOT NULL,
+	    melon_type character varying(30) NOT NULL,
+	    common_name character varying(100) NOT NULL,
+	    price numeric(8,2) NOT NULL,
+	    seedless boolean DEFAULT false NOT NULL
+	);
+2022-06-13 17:22:35.814 MDT [29992] ERROR:  relation "order_items" already exists
+2022-06-13 17:22:35.814 MDT [29992] STATEMENT:  CREATE TABLE order_items (
+	    id integer NOT NULL,
+	    order_id integer NOT NULL,
+	    melon_id integer NOT NULL,
+	    quantity integer NOT NULL,
+	    unit_price numeric(8,2) NOT NULL,
+	    total_price numeric(10,2) NOT NULL
+	);
+2022-06-13 17:22:35.816 MDT [29992] ERROR:  relation "orders" already exists
+2022-06-13 17:22:35.816 MDT [29992] STATEMENT:  CREATE TABLE orders (
+	    id integer NOT NULL,
+	    customer_id integer NOT NULL,
+	    status character varying(16) NOT NULL,
+	    salesperson_id integer,
+	    shipto_state character varying(35) NOT NULL,
+	    subtotal numeric(10,2) NOT NULL,
+	    tax numeric(10,2) NOT NULL,
+	    order_total numeric(10,2) NOT NULL,
+	    CONSTRAINT orders_status_check CHECK (((status)::text = ANY ((ARRAY['New'::character varying, 'Processing'::character varying, 'Out for Delivery'::character varying, 'Delivered'::character varying, 'Canceled'::character varying])::text[])))
+	);
+2022-06-13 17:22:35.818 MDT [29992] ERROR:  relation "salespeople" already exists
+2022-06-13 17:22:35.818 MDT [29992] STATEMENT:  CREATE TABLE salespeople (
+	    id integer NOT NULL,
+	    email character varying(120) NOT NULL,
+	    first_name character varying(30) NOT NULL,
+	    last_name character varying(30) NOT NULL,
+	    region character varying(20) NOT NULL
+	);
+2022-06-13 17:22:35.830 MDT [29992] ERROR:  duplicate key value violates unique constraint "customers_pkey"
+2022-06-13 17:22:35.830 MDT [29992] DETAIL:  Key (id)=(1) already exists.
+2022-06-13 17:22:35.830 MDT [29992] CONTEXT:  COPY customers, line 1
+2022-06-13 17:22:35.830 MDT [29992] STATEMENT:  COPY customers (id, email, first_name, last_name, dob) FROM stdin;
+2022-06-13 17:22:35.840 MDT [29992] ERROR:  duplicate key value violates unique constraint "melons_pkey"
+2022-06-13 17:22:35.840 MDT [29992] DETAIL:  Key (id)=(1) already exists.
+2022-06-13 17:22:35.840 MDT [29992] CONTEXT:  COPY melons, line 1
+2022-06-13 17:22:35.840 MDT [29992] STATEMENT:  COPY melons (id, melon_type, common_name, price, seedless) FROM stdin;
+2022-06-13 17:22:35.855 MDT [29992] ERROR:  duplicate key value violates unique constraint "order_items_pkey"
+2022-06-13 17:22:35.855 MDT [29992] DETAIL:  Key (id)=(1) already exists.
+2022-06-13 17:22:35.855 MDT [29992] CONTEXT:  COPY order_items, line 1
+2022-06-13 17:22:35.855 MDT [29992] STATEMENT:  COPY order_items (id, order_id, melon_id, quantity, unit_price, total_price) FROM stdin;
+2022-06-13 17:22:35.874 MDT [29992] ERROR:  duplicate key value violates unique constraint "orders_pkey"
+2022-06-13 17:22:35.874 MDT [29992] DETAIL:  Key (id)=(1) already exists.
+2022-06-13 17:22:35.874 MDT [29992] CONTEXT:  COPY orders, line 1
+2022-06-13 17:22:35.874 MDT [29992] STATEMENT:  COPY orders (id, customer_id, status, salesperson_id, shipto_state, subtotal, tax, order_total) FROM stdin;
+2022-06-13 17:22:35.883 MDT [29992] ERROR:  duplicate key value violates unique constraint "salespeople_pkey"
+2022-06-13 17:22:35.883 MDT [29992] DETAIL:  Key (id)=(1) already exists.
+2022-06-13 17:22:35.883 MDT [29992] CONTEXT:  COPY salespeople, line 1
+2022-06-13 17:22:35.883 MDT [29992] STATEMENT:  COPY salespeople (id, email, first_name, last_name, region) FROM stdin;
+2022-06-13 17:22:35.888 MDT [29992] ERROR:  multiple primary keys for table "customers" are not allowed
+2022-06-13 17:22:35.888 MDT [29992] STATEMENT:  ALTER TABLE ONLY customers
+	    ADD CONSTRAINT customers_pkey PRIMARY KEY (id);
+2022-06-13 17:22:35.892 MDT [29992] ERROR:  multiple primary keys for table "melons" are not allowed
+2022-06-13 17:22:35.892 MDT [29992] STATEMENT:  ALTER TABLE ONLY melons
+	    ADD CONSTRAINT melons_pkey PRIMARY KEY (id);
+2022-06-13 17:22:35.895 MDT [29992] ERROR:  multiple primary keys for table "order_items" are not allowed
+2022-06-13 17:22:35.895 MDT [29992] STATEMENT:  ALTER TABLE ONLY order_items
+	    ADD CONSTRAINT order_items_pkey PRIMARY KEY (id);
+2022-06-13 17:22:35.899 MDT [29992] ERROR:  multiple primary keys for table "orders" are not allowed
+2022-06-13 17:22:35.899 MDT [29992] STATEMENT:  ALTER TABLE ONLY orders
+	    ADD CONSTRAINT orders_pkey PRIMARY KEY (id);
+2022-06-13 17:22:35.903 MDT [29992] ERROR:  multiple primary keys for table "salespeople" are not allowed
+2022-06-13 17:22:35.903 MDT [29992] STATEMENT:  ALTER TABLE ONLY salespeople
+	    ADD CONSTRAINT salespeople_pkey PRIMARY KEY (id);
+2022-06-13 17:22:35.905 MDT [29992] ERROR:  relation "ix_customers_email" already exists
+2022-06-13 17:22:35.905 MDT [29992] STATEMENT:  CREATE UNIQUE INDEX ix_customers_email ON customers USING btree (email);
+2022-06-13 17:22:35.907 MDT [29992] ERROR:  relation "ix_order_items_melon_id" already exists
+2022-06-13 17:22:35.907 MDT [29992] STATEMENT:  CREATE INDEX ix_order_items_melon_id ON order_items USING btree (melon_id);
+2022-06-13 17:22:35.909 MDT [29992] ERROR:  relation "ix_order_items_order_id" already exists
+2022-06-13 17:22:35.909 MDT [29992] STATEMENT:  CREATE INDEX ix_order_items_order_id ON order_items USING btree (order_id);
+2022-06-13 17:22:35.911 MDT [29992] ERROR:  relation "ix_orders_customer_id" already exists
+2022-06-13 17:22:35.911 MDT [29992] STATEMENT:  CREATE INDEX ix_orders_customer_id ON orders USING btree (customer_id);
+2022-06-13 17:22:35.912 MDT [29992] ERROR:  relation "ix_orders_salesperson_id" already exists
+2022-06-13 17:22:35.912 MDT [29992] STATEMENT:  CREATE INDEX ix_orders_salesperson_id ON orders USING btree (salesperson_id);
+2022-06-13 17:22:35.914 MDT [29992] ERROR:  relation "ix_salespeople_email" already exists
+2022-06-13 17:22:35.914 MDT [29992] STATEMENT:  CREATE UNIQUE INDEX ix_salespeople_email ON salespeople USING btree (email);
+2022-06-13 17:39:00.494 MDT [38188] ERROR:  role "postgres" already exists
+2022-06-13 17:39:00.494 MDT [38188] STATEMENT:  CREATE ROLE postgres PASSWORD 'md5506abd65781cf759eb12226b0bf119cf' SUPERUSER CREATEDB CREATEROLE INHERIT LOGIN;
+2022-06-13 17:42:16.799 MDT [18872] ERROR:  relation "customers" already exists
+2022-06-13 17:42:16.799 MDT [18872] STATEMENT:  CREATE TABLE customers (
+	    id integer NOT NULL,
+	    email character varying(120) NOT NULL,
+	    first_name character varying(30) NOT NULL,
+	    last_name character varying(30) NOT NULL,
+	    dob date NOT NULL
+	);
+2022-06-13 17:42:16.803 MDT [18872] ERROR:  relation "melons" already exists
+2022-06-13 17:42:16.803 MDT [18872] STATEMENT:  CREATE TABLE melons (
+	    id integer NOT NULL,
+	    melon_type character varying(30) NOT NULL,
+	    common_name character varying(100) NOT NULL,
+	    price numeric(8,2) NOT NULL,
+	    seedless boolean DEFAULT false NOT NULL
+	);
+2022-06-13 17:42:16.804 MDT [18872] ERROR:  relation "order_items" already exists
+2022-06-13 17:42:16.804 MDT [18872] STATEMENT:  CREATE TABLE order_items (
+	    id integer NOT NULL,
+	    order_id integer NOT NULL,
+	    melon_id integer NOT NULL,
+	    quantity integer NOT NULL,
+	    unit_price numeric(8,2) NOT NULL,
+	    total_price numeric(10,2) NOT NULL
+	);
+2022-06-13 17:42:16.805 MDT [18872] ERROR:  relation "orders" already exists
+2022-06-13 17:42:16.805 MDT [18872] STATEMENT:  CREATE TABLE orders (
+	    id integer NOT NULL,
+	    customer_id integer NOT NULL,
+	    status character varying(16) NOT NULL,
+	    salesperson_id integer,
+	    shipto_state character varying(35) NOT NULL,
+	    subtotal numeric(10,2) NOT NULL,
+	    tax numeric(10,2) NOT NULL,
+	    order_total numeric(10,2) NOT NULL,
+	    CONSTRAINT orders_status_check CHECK (((status)::text = ANY ((ARRAY['New'::character varying, 'Processing'::character varying, 'Out for Delivery'::character varying, 'Delivered'::character varying, 'Canceled'::character varying])::text[])))
+	);
+2022-06-13 17:42:16.806 MDT [18872] ERROR:  relation "salespeople" already exists
+2022-06-13 17:42:16.806 MDT [18872] STATEMENT:  CREATE TABLE salespeople (
+	    id integer NOT NULL,
+	    email character varying(120) NOT NULL,
+	    first_name character varying(30) NOT NULL,
+	    last_name character varying(30) NOT NULL,
+	    region character varying(20) NOT NULL
+	);
+2022-06-13 17:42:16.816 MDT [18872] ERROR:  duplicate key value violates unique constraint "customers_pkey"
+2022-06-13 17:42:16.816 MDT [18872] DETAIL:  Key (id)=(1) already exists.
+2022-06-13 17:42:16.816 MDT [18872] CONTEXT:  COPY customers, line 1
+2022-06-13 17:42:16.816 MDT [18872] STATEMENT:  COPY customers (id, email, first_name, last_name, dob) FROM stdin;
+2022-06-13 17:42:16.828 MDT [18872] ERROR:  duplicate key value violates unique constraint "melons_pkey"
+2022-06-13 17:42:16.828 MDT [18872] DETAIL:  Key (id)=(1) already exists.
+2022-06-13 17:42:16.828 MDT [18872] CONTEXT:  COPY melons, line 1
+2022-06-13 17:42:16.828 MDT [18872] STATEMENT:  COPY melons (id, melon_type, common_name, price, seedless) FROM stdin;
+2022-06-13 17:42:16.845 MDT [18872] ERROR:  duplicate key value violates unique constraint "order_items_pkey"
+2022-06-13 17:42:16.845 MDT [18872] DETAIL:  Key (id)=(1) already exists.
+2022-06-13 17:42:16.845 MDT [18872] CONTEXT:  COPY order_items, line 1
+2022-06-13 17:42:16.845 MDT [18872] STATEMENT:  COPY order_items (id, order_id, melon_id, quantity, unit_price, total_price) FROM stdin;
+2022-06-13 17:42:16.875 MDT [18872] ERROR:  duplicate key value violates unique constraint "orders_pkey"
+2022-06-13 17:42:16.875 MDT [18872] DETAIL:  Key (id)=(1) already exists.
+2022-06-13 17:42:16.875 MDT [18872] CONTEXT:  COPY orders, line 1
+2022-06-13 17:42:16.875 MDT [18872] STATEMENT:  COPY orders (id, customer_id, status, salesperson_id, shipto_state, subtotal, tax, order_total) FROM stdin;
+2022-06-13 17:42:16.900 MDT [18872] ERROR:  duplicate key value violates unique constraint "salespeople_pkey"
+2022-06-13 17:42:16.900 MDT [18872] DETAIL:  Key (id)=(1) already exists.
+2022-06-13 17:42:16.900 MDT [18872] CONTEXT:  COPY salespeople, line 1
+2022-06-13 17:42:16.900 MDT [18872] STATEMENT:  COPY salespeople (id, email, first_name, last_name, region) FROM stdin;
+2022-06-13 17:42:16.916 MDT [18872] ERROR:  multiple primary keys for table "customers" are not allowed
+2022-06-13 17:42:16.916 MDT [18872] STATEMENT:  ALTER TABLE ONLY customers
+	    ADD CONSTRAINT customers_pkey PRIMARY KEY (id);
+2022-06-13 17:42:16.920 MDT [18872] ERROR:  multiple primary keys for table "melons" are not allowed
+2022-06-13 17:42:16.920 MDT [18872] STATEMENT:  ALTER TABLE ONLY melons
+	    ADD CONSTRAINT melons_pkey PRIMARY KEY (id);
+2022-06-13 17:42:16.923 MDT [18872] ERROR:  multiple primary keys for table "order_items" are not allowed
+2022-06-13 17:42:16.923 MDT [18872] STATEMENT:  ALTER TABLE ONLY order_items
+	    ADD CONSTRAINT order_items_pkey PRIMARY KEY (id);
+2022-06-13 17:42:16.926 MDT [18872] ERROR:  multiple primary keys for table "orders" are not allowed
+2022-06-13 17:42:16.926 MDT [18872] STATEMENT:  ALTER TABLE ONLY orders
+	    ADD CONSTRAINT orders_pkey PRIMARY KEY (id);
+2022-06-13 17:42:16.931 MDT [18872] ERROR:  multiple primary keys for table "salespeople" are not allowed
+2022-06-13 17:42:16.931 MDT [18872] STATEMENT:  ALTER TABLE ONLY salespeople
+	    ADD CONSTRAINT salespeople_pkey PRIMARY KEY (id);
+2022-06-13 17:42:16.936 MDT [18872] ERROR:  relation "ix_customers_email" already exists
+2022-06-13 17:42:16.936 MDT [18872] STATEMENT:  CREATE UNIQUE INDEX ix_customers_email ON customers USING btree (email);
+2022-06-13 17:42:16.941 MDT [18872] ERROR:  relation "ix_order_items_melon_id" already exists
+2022-06-13 17:42:16.941 MDT [18872] STATEMENT:  CREATE INDEX ix_order_items_melon_id ON order_items USING btree (melon_id);
+2022-06-13 17:42:16.945 MDT [18872] ERROR:  relation "ix_order_items_order_id" already exists
+2022-06-13 17:42:16.945 MDT [18872] STATEMENT:  CREATE INDEX ix_order_items_order_id ON order_items USING btree (order_id);
+2022-06-13 17:42:16.950 MDT [18872] ERROR:  relation "ix_orders_customer_id" already exists
+2022-06-13 17:42:16.950 MDT [18872] STATEMENT:  CREATE INDEX ix_orders_customer_id ON orders USING btree (customer_id);
+2022-06-13 17:42:16.954 MDT [18872] ERROR:  relation "ix_orders_salesperson_id" already exists
+2022-06-13 17:42:16.954 MDT [18872] STATEMENT:  CREATE INDEX ix_orders_salesperson_id ON orders USING btree (salesperson_id);
+2022-06-13 17:42:16.956 MDT [18872] ERROR:  relation "ix_salespeople_email" already exists
+2022-06-13 17:42:16.956 MDT [18872] STATEMENT:  CREATE UNIQUE INDEX ix_salespeople_email ON salespeople USING btree (email);
